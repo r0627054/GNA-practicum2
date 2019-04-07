@@ -44,10 +44,9 @@ public class Board {
 		return totalDistance;
 	}
 	
-	private int getDistance(int row, int column, int value) {
-		int finalRow = (int) Math.ceil((double) value/ (double) this.getSize()) -1;
-		int finalColumn = (int) (value -1) % this.getSize();	
-		return Math.abs(row - finalRow) + Math.abs(column - finalColumn);
+	private int getDistance(int row, int column, int value) {	
+		int[] pos = this.getXYPosition(value);
+		return Math.abs(row - pos[0]) + Math.abs(column - pos[1]);
 	}
 
 	// Does this board equal y. Two boards are equal when they both were constructed
@@ -75,7 +74,7 @@ public class Board {
 	// return a Collection of all neighboring board positions
 	public Collection<Board> neighbors() {
 		Collection<Board> neighbors = new ArrayList<>();
-		int[] emptyPosition = this.getPositionOfValue(0);
+		int[] emptyPosition = this.getPositionOfValue(0,this.getTiles());
 		MoveDirection[] directions = new MoveDirection[] {MoveDirection.LEFT, MoveDirection.TOP, MoveDirection.RIGHT, MoveDirection.BOTTOM};
 		for (MoveDirection direction : directions) {
 			if(isValidMove(emptyPosition[0], emptyPosition[1], direction)) {
@@ -102,8 +101,17 @@ public class Board {
 	// is the initial board solvable? Note that the empty tile must
 	// first be moved to its correct position.
 	public boolean isSolvable() {
-		
-		throw new RuntimeException("not implemented"); // TODO
+		int[][] emptyTileEnd = this.getEmptyTileAtEndBoard();
+		int[] lookupHelper = this.lookupArray(emptyTileEnd);
+		double totalNumerator = 1;
+		double totalDenominator = 1;
+		for (int j = 1; j < (this.getSize()*this.getSize()); j++) {
+			for (int i = 1; i < j; i++) {
+				totalNumerator   *= (lookupHelper[j] -lookupHelper[i]);
+				totalDenominator *= (j-i);
+			}
+		}
+		return (totalNumerator/totalDenominator)>=0;
 	}
 
 	public int[][] getTiles() {
@@ -128,8 +136,8 @@ public class Board {
 		return copy;
 	}
 
-	private int[] getPositionOfValue(int value) {
-		int size = this.getSize();
+	private int[] getPositionOfValue(int value, int[][] tiles) {
+		int size = tiles.length;
 		for (int row = 0; row < size; row++) {
 			for (int column = 0; column < size; column++) {
 				if(this.getValue(row, column) == value) {
@@ -138,6 +146,23 @@ public class Board {
 			}
 		}
 		return null;
+	}
+	
+	private int[] lookupArray(int[][] tiles) {
+		int[] lookup = new int[tiles.length*tiles.length];
+		for (int i = 0; i < tiles.length; i++) {
+			for (int j = 0; j < tiles.length; j++) {
+				lookup[tiles[i][j]] = (i*lookup.length) + j + 1;
+			}
+		}
+		System.out.println(Arrays.toString(lookup));
+		return lookup;
+	}
+	
+	private int[] getXYPosition(int value) {
+		int row = (int) Math.ceil((double) value/ (double) this.getSize()) -1;
+		int column = (int) (value -1) % this.getSize();
+		return new int[] {row,column };
 	}
 	
 	
@@ -163,30 +188,43 @@ public class Board {
 	}
 	
 	private int[][] swapTiles(int row, int column, MoveDirection direction){
+		return this.swapTiles(row, column, direction, this.getTiles());
+	}
+	
+	private int[][] swapTiles(int row, int column, MoveDirection direction, int[][] tiles){
 		switch (direction) {
 		case LEFT:
-			return this.swap(row, column, row, column-1);
+			return this.swap(row, column, row, column-1,tiles);
 		case RIGHT:
-			return this.swap(row, column, row, column+1);
+			return this.swap(row, column, row, column+1,tiles);
 		case TOP:
-			return this.swap(row, column, row-1, column);
+			return this.swap(row, column, row-1, column,tiles);
 		case BOTTOM:
-			return this.swap(row, column, row+1, column);
+			return this.swap(row, column, row+1, column,tiles);
 		default:
 			throw new IllegalArgumentException("Cannot make the move on the board");
 		}
 	}
-	
-	private int[][] swap(int frow, int fcol, int srow, int scol){
-		int[][] swapedTitles = getDeepCopy(this.getTiles());
-		swapedTitles[frow][fcol] = this.getValue(srow, scol);
-		swapedTitles[srow][scol] = this.getValue(frow, fcol);
+		
+	private int[][] swap(int frow, int fcol, int srow, int scol, int[][] tiles){
+		int[][] swapedTitles = getDeepCopy(tiles);
+		swapedTitles[frow][fcol] = tiles[srow][scol];
+		swapedTitles[srow][scol] = tiles[frow][fcol];
 		return swapedTitles;
 	}
 	
-	
-	private int[][] getEmptyTileAtEndBoard(){
-		throw new RuntimeException("not implemented"); // TODO
+	public int[][] getEmptyTileAtEndBoard(){
+		int[] pos = this.getPositionOfValue(0,this.getTiles());
+		int rowMoves = this.getSize() - pos[0] -1;
+		int colMoves = this.getSize() - pos[1] -1;
+		int[][] currentTiles = this.getTiles();
+		for (int i = 0; i < colMoves; i++) {
+			currentTiles = this.swapTiles(pos[0], pos[1]+i, MoveDirection.RIGHT, currentTiles);
+		}
+		for (int i = 0; i < rowMoves; i++) {
+			currentTiles = this.swapTiles(pos[0]+i, pos[1]+colMoves, MoveDirection.BOTTOM, currentTiles);
+		}
+		return currentTiles;
 	}
 	
 	private int getValue(int row, int column) {
