@@ -1,6 +1,7 @@
 package gna;
 
 import java.util.Collection;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Board {
@@ -73,7 +74,15 @@ public class Board {
 
 	// return a Collection of all neighboring board positions
 	public Collection<Board> neighbors() {
-		throw new RuntimeException("not implemented"); // TODO
+		Collection<Board> neighbors = new ArrayList<>();
+		int[] emptyPosition = this.getPositionOfValue(0);
+		MoveDirection[] directions = new MoveDirection[] {MoveDirection.LEFT, MoveDirection.TOP, MoveDirection.RIGHT, MoveDirection.BOTTOM};
+		for (MoveDirection direction : directions) {
+			if(isValidMove(emptyPosition[0], emptyPosition[1], direction)) {
+				neighbors.add(new Board(this.swapTiles(emptyPosition[0], emptyPosition[1], direction)));
+			}
+		}
+		return neighbors;
 	}
 
 	// return a string representation of the board
@@ -119,17 +128,62 @@ public class Board {
 		return copy;
 	}
 
-	private int getPositionOfValue(int value) {
-		int size = this.getTiles().length;
-		for (int i = 0; i < size; i++) {
-			for (int j = 0; j < size; j++) {
-				if(this.getValue(i, j) == value) {
-					return (size * i) + j + 1;
+	private int[] getPositionOfValue(int value) {
+		int size = this.getSize();
+		for (int row = 0; row < size; row++) {
+			for (int column = 0; column < size; column++) {
+				if(this.getValue(row, column) == value) {
+					return new int[] {row,column};	
 				}
 			}
 		}
-		return -1;
+		return null;
 	}
+	
+	
+	private boolean isValidMove(int row, int column, MoveDirection direction) {
+		boolean result = false;
+		switch (direction) {
+		case LEFT:
+			result = column > 0;
+			break;
+		case RIGHT:
+			result = column < (this.getSize() -1);
+			break;
+		case TOP:
+			result = row > 0;
+			break;
+		case BOTTOM:
+			result = row < (this.getSize() -1);
+			break;
+		default:
+			throw new IllegalArgumentException("Cannot make the move on the board");
+		}
+		return result;
+	}
+	
+	private int[][] swapTiles(int row, int column, MoveDirection direction){
+		switch (direction) {
+		case LEFT:
+			return this.swap(row, column, row, column-1);
+		case RIGHT:
+			return this.swap(row, column, row, column+1);
+		case TOP:
+			return this.swap(row, column, row-1, column);
+		case BOTTOM:
+			return this.swap(row, column, row+1, column);
+		default:
+			throw new IllegalArgumentException("Cannot make the move on the board");
+		}
+	}
+	
+	private int[][] swap(int frow, int fcol, int srow, int scol){
+		int[][] swapedTitles = getDeepCopy(this.getTiles());
+		swapedTitles[frow][fcol] = this.getValue(srow, scol);
+		swapedTitles[srow][scol] = this.getValue(frow, fcol);
+		return swapedTitles;
+	}
+	
 	
 	private int[][] getEmptyTileAtEndBoard(){
 		throw new RuntimeException("not implemented"); // TODO
