@@ -78,7 +78,16 @@ public class Board {
 
 	// return a string representation of the board
 	public String toString() {
-		return "<empty>"; // TODO
+		String result = "";
+		for (int row = 0; row < this.getSize(); row++) {
+			for (int column = 0; column < this.getSize(); column++) {
+				int val = this.getValue(row, column);
+				result +=  (val == 0 ? " " : val);
+				result += ( (column == this.getSize()-1) ? "" : "\t" );
+			}
+			result+= "\n";
+		}
+		return result;
 	}
 
 	// is the initial board solvable? Note that the empty tile must
@@ -123,11 +132,11 @@ public class Board {
 	}
 	
 	private int[][] getEmptyTileAtEndBoard(){
-		return null;
+		throw new RuntimeException("not implemented"); // TODO
 	}
 	
-	private int getValue(int x, int y) {
-		return this.getTiles()[x][y];
+	private int getValue(int row, int column) {
+		return this.getTiles()[row][column];
 	}
 
 	private int getSize() {
