@@ -15,12 +15,38 @@ public class Board {
 
 	// return number of blocks out of place
 	public int hamming() {
-		throw new RuntimeException("not implemented"); // TODO
+		int expectedValue = 1;
+		int nbrIncorrect = 0;
+		for (int row = 0; row < this.getSize(); row++) {
+			for (int column = 0; column < this.getSize(); column++) {
+				int val = this.getValue(row, column);
+				if(val != 0 && val != expectedValue) {
+					nbrIncorrect++;
+				}
+				expectedValue++;
+			}
+		}
+		return nbrIncorrect;
 	}
 
 	// return sum of Manhattan distances between blocks and goal
 	public int manhattan() {
-		throw new RuntimeException("not implemented"); // TODO
+		int totalDistance = 0;
+		for (int row = 0; row < this.getSize(); row++) {
+			for (int column = 0; column < this.getSize(); column++) {
+				int val = this.getValue(row, column);
+				if(val != 0 ) {
+					totalDistance += this.getDistance(row, column, val);
+				}
+			}
+		}
+		return totalDistance;
+	}
+	
+	private int getDistance(int row, int column, int value) {
+		int finalRow = (int) Math.ceil((double) value/ (double) this.getSize()) -1;
+		int finalColumn = (int) (value -1) % this.getSize();	
+		return Math.abs(row - finalRow) + Math.abs(column - finalColumn);
 	}
 
 	// Does this board equal y. Two boards are equal when they both were constructed
@@ -96,7 +122,7 @@ public class Board {
 		return -1;
 	}
 	
-	private int[][] getEmptyTitleAtEndBoard(){
+	private int[][] getEmptyTileAtEndBoard(){
 		return null;
 	}
 	
@@ -104,6 +130,10 @@ public class Board {
 		return this.getTiles()[x][y];
 	}
 
+	private int getSize() {
+		return this.getTiles().length;
+	}
+	
 	private boolean isSquare(int[][] tiles) {
 		if (tiles == null) {
 			throw new IllegalArgumentException("Tiles cannot be null");
