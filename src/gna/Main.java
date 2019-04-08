@@ -11,20 +11,15 @@ class Main
 {
 	public static void main( String[] args )
 	{
-		//Board b = BoardReader.getBoardWithData("boards/puzzle20.txt");
-		//Solver s = new Solver(b, PriorityFunc.MANHATTAN);
-		/*for(Board bo: s.solution()) {
-			System.out.println(bo);
-		}
-		System.out.println(s.getMinimalNumberOfMoves());*/
 		
-		PriorityFunc[] prio = {PriorityFunc.HAMMING};
-		/*String[] paths = {"boards/puzzle04.txt","boards/puzzle20.txt","boards/puzzle22.txt","boards/puzzle24.txt","boards/puzzle26.txt","boards/puzzle28.txt",
-				"boards/puzzle30.txt","boards/puzzle32.txt","boards/puzzle34.txt","boards/puzzle36.txt","boards/puzzle38.txt","boards/puzzle40.txt","boards/puzzle42.txt" };*/
-		String[] paths = {"boards/puzzle28.txt",
+		PriorityFunc[] prio = {PriorityFunc.MANHATTAN};
+		String[] paths = {"boards/puzzle04.txt","boards/puzzle20.txt","boards/puzzle22.txt","boards/puzzle24.txt","boards/puzzle26.txt","boards/puzzle28.txt",
 				"boards/puzzle30.txt","boards/puzzle32.txt","boards/puzzle34.txt","boards/puzzle36.txt","boards/puzzle38.txt","boards/puzzle40.txt","boards/puzzle42.txt" };
 		generateDataCSV(paths, prio);
 		System.out.println("done");
+		
+		
+		
 		/*int N = StdIn.readInt();
 		int[][] tiles = new int[N][N];
 		
@@ -49,7 +44,12 @@ class Main
 	}
 	
 	
-	
+	/**
+	 * Generates a CSV file with containing all the information of the puzzle efficiency and the used priorityFunction.
+	 * @param filePaths     The list of path to the puzzle files.
+	 * @param priorityFuncs The priority functions used.
+	 * @post A CSV file is generated with the given information.
+	 */
 	private static void generateDataCSV(String[] filePaths, PriorityFunc[] priorityFuncs) {
 		String filename=System.getProperty("user.dir") + File.separator + "dataFile.csv";
 		try (FileOutputStream fos = new FileOutputStream(filename)) {

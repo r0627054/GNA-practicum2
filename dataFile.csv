@@ -1,4 +1,14 @@
-HAMMING
+MANHATTAN
 file,time,minimalmoves
-boards/puzzle28.txt,1067,28
-boards/puzzle30.txt,2409,30
+boards/puzzle04.txt,6,4
+boards/puzzle20.txt,10,14
+boards/puzzle22.txt,1,12
+boards/puzzle24.txt,1,3
+boards/puzzle26.txt,0,2
+boards/puzzle28.txt,52,28
+boards/puzzle30.txt,88,30
+boards/puzzle32.txt,1618,32
+boards/puzzle34.txt,371,34
+boards/puzzle36.txt,6443,36
+boards/puzzle38.txt,7132,38
+boards/puzzle40.txt,1369,40

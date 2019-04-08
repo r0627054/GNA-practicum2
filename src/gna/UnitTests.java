@@ -33,7 +33,18 @@ public class UnitTests {
 		              distanceBoard2 = new Board(distanceTiles2),
 		              unSolvableBoard= new Board(unsolvableTiles),
 		              solved3x3Board = new Board(solved3x3);
+  private final String puzzel04 = "boards/puzzle04.txt",
+		               puzzel20 = "boards/puzzle20.txt",
+                       puzzel22 = "boards/puzzle22.txt",
+                       puzzel24 = "boards/puzzle24.txt",
+                       puzzel26 = "boards/puzzle26.txt",
+                       unsolvable= "boards/puzzle3x3-impossible.txt";
  
+  @Test (expected = IllegalArgumentException.class)
+  public void solveAnImpossiblePuzzelWillThrowException() {
+	  new Solver(BoardReader.getBoardWithData(unsolvable), PriorityFunc.MANHATTAN);
+  }
+  
   @Test
   public void testHammingDistanceWithAssignmentExample() {
 		assertEquals(5, distanceBoard1.hamming());
@@ -74,5 +85,134 @@ public class UnitTests {
 	  assertFalse(distanceBoard1.isSolved());
   }
   
+  @Test
+  public void puzzel4HamminghasCorrectMinimalMoves() {
+	  Board b = BoardReader.getBoardWithData(puzzel04);
+	  assertEquals(4, new Solver(b, PriorityFunc.HAMMING).getMinimalNumberOfMoves());
+  }
+  
+  @Test
+  public void puzzel20HamminghasCorrectMinimalMoves() {
+	  Board b = BoardReader.getBoardWithData(puzzel20);
+	  assertEquals(14, new Solver(b, PriorityFunc.HAMMING).getMinimalNumberOfMoves());
+  } 
+  
+  @Test
+  public void puzzel22HamminghasCorrectMinimalMoves() {
+	  Board b = BoardReader.getBoardWithData(puzzel22);
+	  assertEquals(12, new Solver(b, PriorityFunc.HAMMING).getMinimalNumberOfMoves());
+  }
+  
+  @Test
+  public void puzzel24HamminghasCorrectMinimalMoves() {
+	  Board b = BoardReader.getBoardWithData(puzzel24);
+	  assertEquals(3, new Solver(b, PriorityFunc.HAMMING).getMinimalNumberOfMoves());
+  }
+  
+  @Test
+  public void puzzel26HamminghasCorrectMinimalMoves() {
+	  Board b = BoardReader.getBoardWithData(puzzel26);
+	  assertEquals(2, new Solver(b, PriorityFunc.HAMMING).getMinimalNumberOfMoves());
+  }
+  
+  @Test
+  public void puzzel4IsSolvedCorrectlyWithHamming() {
+	  Board b = BoardReader.getBoardWithData(puzzel04);
+	  Solver s = new Solver(b, PriorityFunc.HAMMING);
+	  assertTrue(s.getBoardStateSolution().getCurrentBoard().isSolved());
+  }
+  
+  @Test
+  public void puzzel20IsSolvedCorrectlyWithHamming() {
+	  Board b = BoardReader.getBoardWithData(puzzel20);
+	  Solver s = new Solver(b, PriorityFunc.HAMMING);
+	  assertTrue(s.getBoardStateSolution().getCurrentBoard().isSolved());
+  }
+
+  @Test
+  public void puzzel22IsSolvedCorrectlyWithHamming() {
+	  Board b = BoardReader.getBoardWithData(puzzel22);
+	  Solver s = new Solver(b, PriorityFunc.HAMMING);
+	  assertTrue(s.getBoardStateSolution().getCurrentBoard().isSolved());
+  }
+  
+  @Test
+  public void puzzel24IsSolvedCorrectlyWithHamming() {
+	  Board b = BoardReader.getBoardWithData(puzzel24);
+	  Solver s = new Solver(b, PriorityFunc.HAMMING);
+	  assertTrue(s.getBoardStateSolution().getCurrentBoard().isSolved());
+  }
+  
+  @Test
+  public void puzzel26IsSolvedCorrectlyWithHamming() {
+	  Board b = BoardReader.getBoardWithData(puzzel26);
+	  Solver s = new Solver(b, PriorityFunc.HAMMING);
+	  assertTrue(s.getBoardStateSolution().getCurrentBoard().isSolved());
+  }
+    
+  @Test
+  public void puzzel4ManhattanghasCorrectMinimalMoves() {
+	  Board b = BoardReader.getBoardWithData(puzzel04);
+	  assertEquals(4, new Solver(b, PriorityFunc.MANHATTAN).getMinimalNumberOfMoves());
+  }
+  
+  @Test
+  public void puzzel20ManhattanhasCorrectMinimalMoves() {
+	  Board b = BoardReader.getBoardWithData(puzzel20);
+	  assertEquals(14, new Solver(b, PriorityFunc.MANHATTAN).getMinimalNumberOfMoves());
+  } 
+  
+  @Test
+  public void puzzel22ManhattanhasCorrectMinimalMoves() {
+	  Board b = BoardReader.getBoardWithData(puzzel22);
+	  assertEquals(12, new Solver(b, PriorityFunc.MANHATTAN).getMinimalNumberOfMoves());
+  }
+  
+  @Test
+  public void puzzel24ManhattanhasCorrectMinimalMoves() {
+	  Board b = BoardReader.getBoardWithData(puzzel24);
+	  assertEquals(3, new Solver(b, PriorityFunc.MANHATTAN).getMinimalNumberOfMoves());
+  }
+  
+  @Test
+  public void puzzel26ManhattanhasCorrectMinimalMoves() {
+	  Board b = BoardReader.getBoardWithData(puzzel26);
+	  assertEquals(2, new Solver(b, PriorityFunc.MANHATTAN).getMinimalNumberOfMoves());
+  }
+  
+  @Test
+  public void puzzel4IsSolvedCorrectlyWithManhattan() {
+	  Board b = BoardReader.getBoardWithData(puzzel04);
+	  Solver s = new Solver(b, PriorityFunc.MANHATTAN);
+	  assertTrue(s.getBoardStateSolution().getCurrentBoard().isSolved());
+  }
+  
+  @Test
+  public void puzzel20IsSolvedCorrectlyWithManhattan() {
+	  Board b = BoardReader.getBoardWithData(puzzel20);
+	  Solver s = new Solver(b, PriorityFunc.MANHATTAN);
+	  assertTrue(s.getBoardStateSolution().getCurrentBoard().isSolved());
+  }
+
+  @Test
+  public void puzzel22IsSolvedCorrectlyWithManhattan() {
+	  Board b = BoardReader.getBoardWithData(puzzel22);
+	  Solver s = new Solver(b, PriorityFunc.MANHATTAN);
+	  assertTrue(s.getBoardStateSolution().getCurrentBoard().isSolved());
+  }
+  
+  @Test
+  public void puzzel24IsSolvedCorrectlyWithManhattan() {
+	  Board b = BoardReader.getBoardWithData(puzzel24);
+	  Solver s = new Solver(b, PriorityFunc.MANHATTAN);
+	  assertTrue(s.getBoardStateSolution().getCurrentBoard().isSolved());
+  }
+  
+  @Test
+  public void puzzel26IsSolvedCorrectlyWithManhattan() {
+	  Board b = BoardReader.getBoardWithData(puzzel26);
+	  Solver s = new Solver(b, PriorityFunc.MANHATTAN);
+	  assertTrue(s.getBoardStateSolution().getCurrentBoard().isSolved());
+  }
   
 }
