@@ -1,0 +1,4 @@
+HAMMING
+file,time,minimalmoves
+boards/puzzle28.txt,1067,28
+boards/puzzle30.txt,2409,30

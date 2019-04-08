@@ -9,13 +9,16 @@ import libpract.PriorityFunc;
 
 public class Solver
 {
-	
+	/**
+	 * Variable storing the solution state of the board.
+	 *  (By looking at the previous state, the previous boards can be calculated.
+	 */
 	private BoardState boardStateSolution;
 	
 	/**
 	 * Finds a solution to the initial board.
-	 *
 	 * @param priority is either PriorityFunc.HAMMING or PriorityFunc.MANHATTAN
+	 * @throws IllegalArgumentException when the function cannot be solved or when the priorityFunction does not equal HAMMING OR MANHATTAN.
 	 */
 	public Solver(Board initial, PriorityFunc priority)
 	{
@@ -27,13 +30,18 @@ public class Solver
 		if (priority == PriorityFunc.HAMMING) {
 			this.solve(initial, new HammingComparator());
 		} else if (priority == PriorityFunc.MANHATTAN) {
-			this.solve(initial, new ManhattenComparator());
+			this.solve(initial, new ManhattanComparator());
 		} else {
 			throw new IllegalArgumentException("Priority function not supported");
 		}
 	}
 	
-	
+	/**
+	 * Solves the actual board by making use of the comparator.
+	 * @param initial    The initial board.
+	 * @param comparator The comparator used in the priority queue.
+	 * @effect The solution is computed and the final solution state is stored in the boardStateSolution.
+	 */
 	private void solve(Board initial, Comparator<BoardState> comparator) {
 		PriorityQueue<BoardState> prioQueue = new PriorityQueue<>(comparator);
 		prioQueue.add(new BoardState(initial, null, 0));
@@ -41,7 +49,6 @@ public class Solver
 		while(true) {
 			 bestState = prioQueue.poll();
 			 if(bestState.isCurrentSolved()) {
-				 System.out.println("break");
 				 break;
 			 }
 			 for (Board board : bestState.getCurrentNeighbors()) {
@@ -53,10 +60,20 @@ public class Solver
 		this.setBoardStateSolution(bestState);
 	}
 	
+	/**
+	 * Returns the board state solution variable.
+	 * @return the board state solution variable.
+	 */
 	public BoardState getBoardStateSolution() {
 		return boardStateSolution;
 	}
 
+	/**
+	 * Sets the board state solution variable.
+	 * @param boardStateSolution The BoardState to which the board state solution variable will be set.
+	 * @post The boardStateSolution equals the parameter.
+	 *       | new.getBoardStateSolution() == boardStateSolution
+	 */
 	private void setBoardStateSolution(BoardState boardStateSolution) {
 		this.boardStateSolution = boardStateSolution;
 	}
@@ -74,6 +91,10 @@ public class Solver
 			state = state.getPreviousState();
 		}
 		return solution;
+	}
+	
+	public int getMinimalNumberOfMoves() {
+		return this.getBoardStateSolution().getNbrMoves();
 	}
 }
 

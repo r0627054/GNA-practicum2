@@ -151,15 +151,15 @@ public class Board {
 	public boolean isSolvable() {
 		int[][] emptyTileEnd = this.getEmptyTileAtEndBoard();
 		int[] lookupHelper = this.lookupArray(emptyTileEnd);
-		double totalNumerator = 1;
-		double totalDenominator = 1;
+		double subresult =1;
 		for (int j = 1; j < (this.getSize()*this.getSize()); j++) {
 			for (int i = 1; i < j; i++) {
-				totalNumerator   *= (lookupHelper[j] -lookupHelper[i]);
-				totalDenominator *= (j-i);
+				double numerator   = (lookupHelper[j] -lookupHelper[i]);
+				double denominator = (j-i);
+				subresult *= (numerator/denominator);
 			}
 		}
-		return (totalNumerator/totalDenominator)>=0;
+		return subresult>=0;
 	}
 
 	/**

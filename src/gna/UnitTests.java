@@ -60,7 +60,7 @@ public class UnitTests {
   }
   
   @Test
-  public void insolvableBoard() {
+  public void unsolvableBoard() {
 	  assertFalse(unSolvableBoard.isSolvable());
   }
   
