@@ -21,9 +21,14 @@ class Main
 				"boards/puzzle30.txt" };
 		
 		
-		generateDataCSV(paths, prio);
-		*/
+		generateDataCSV(paths, prio);*/
 		
+		
+		/*Board b = BoardReader.getBoardWithData("boards/puzzle20.txt");
+		Solver s = new Solver(b, PriorityFunc.MANHATTAN);
+		for (Board bor : s.solution()) {
+			System.out.println(bor);
+		}*/
 		
 		int N = StdIn.readInt();
 		int[][] tiles = new int[N][N];

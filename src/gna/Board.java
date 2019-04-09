@@ -294,7 +294,7 @@ public class Board {
 	 * @return The tiles (2D array) with the performed swap.
 	 */
 	private int[][] swapTiles(int row, int column, MoveDirection direction){
-		return this.swapTiles(row, column, direction, this.getTiles());
+		return this.swapTiles(row, column, direction, this.getDeepCopy(this.getTiles()));
 	}
 	
 	/**
@@ -331,10 +331,10 @@ public class Board {
 	 * @return The 2D tiles array after the swap.
 	 */
 	private int[][] swap(int frow, int fcol, int srow, int scol, int[][] tiles){
-		int[][] swapedTitles = getDeepCopy(tiles);
-		swapedTitles[frow][fcol] = tiles[srow][scol];
-		swapedTitles[srow][scol] = tiles[frow][fcol];
-		return swapedTitles;
+		int temp = tiles[srow][scol];
+		tiles[srow][scol] = tiles[frow][fcol];
+		tiles[frow][fcol] = temp;
+		return tiles;
 	}
 	
 	/**
