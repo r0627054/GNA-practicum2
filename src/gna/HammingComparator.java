@@ -11,7 +11,7 @@ import java.util.Comparator;
 public class HammingComparator implements Comparator<BoardState> {
 
 	/**
-	 * Compare 2 BoardStates using the Hamming priority function of the current board with the current boards number of moves.
+	 * Compare 2 BoardStates using the Hamming priority function of the current boards with the current boards number of moves.
 	 * {@inheritDoc}
 	 */
 	@Override
