@@ -1,0 +1,17 @@
+In deze automatisch gegenereerde mail geven we feedback op het tweede
+practicum van het vak Gegevensstructuren en Algoritmen. Dit is dus geen
+verantwoording van je score, het zijn enkel de belangrijkste
+opmerkingen. Als algemene indicatie gebruiken we een kleurcodering
+(groen, oranje, rood), waarbij groener beter is. De kleurcode voor jouw
+practicum is: groen. De opmerkingen op je practicum zijn:
+
+> - degelijk verslag
+> - je uitleg bespreking bij de laatste 2 vragen is nogal kort en weinig
+> geargumenteerd
+
+We onderwierpen alle practica ook aan een JUnit testsuite om de
+effectiviteit van de ingezonden code na te gaan. De automatisch
+gegenereerde output van onze JUnit testen volgt hieronder. Merk op dat
+dit niet de output is van je eigen ingezonden testen.
+
+> OK.
